@@ -196,7 +196,7 @@ def escolher_opcao():
     Função para processat a escolha do usuário no menu principal
     """
 
-    try:
+    try: 
         opcao_escolhida = int(input('Escolha uma opção: '))
 
         if opcao_escolhida == 1:
