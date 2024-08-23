@@ -1,7 +1,7 @@
 import os
 import json
 import sys
-import tkinter as 
+import tkinter as tk
 from modelos.restaurante import Restaurante
 from modelos.avaliacao import Avaliacao
 
@@ -66,6 +66,7 @@ def main():
         print("7. Sair")
 
         opcao = input("\nEscolha uma opção: ")
+        
 
         # Chama a função correspondente á opção escolhida
 
