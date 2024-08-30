@@ -25,7 +25,9 @@ def carregar_dados():
             for restaurante_dados in dados:
                 restaurante = Restaurante(
                     restaurante_dados['nome'],
-                    restaurante_dados['categoria']
+                    restaurante_dados['categoria'],
+                    restaurante_dados['telefone'],
+                    restaurante_dados['endereco']
                 )
                 restaurante._ativo = restaurante_dados['ativo']
                 restaurante._avaliacao = [Avaliacao(**avaliacao) for avaliacao in restaurante_dados['avaliacao']]
@@ -40,6 +42,8 @@ def salvar_dados():
         dados.append({
             'nome': restaurante._nome,
             'categoria': restaurante._categoria,
+            'telefone':restaurante._telefone,
+            'endereco':restaurante._endereco,
             'ativo': restaurante._ativo,
             'avaliacao': [avaliacao.to_dict() for avaliacao in restaurante._avaliacao]
         })
@@ -51,6 +55,7 @@ class Application(Tk):
         super().__init__()
         self.title("Restaurante Expresso")
         self.geometry("500x350")  # Tamanho inicial da janela principal
+        self.configure(bg="#f0f0f0")
         self.create_widgets()
         carregar_dados()
 
@@ -62,7 +67,7 @@ class Application(Tk):
         button_avaliar = Button(self, text="Avaliar Restaurante", command=self.avaliar_restaurante)
         button_alterar = Button(self, text="Alterar Restaurante", command=self.alterar_restaurante)
         button_excluir = Button(self, text="Excluir Restaurante", command=self.excluir_restaurante)
-        button_sair = Button(self, text="Sair", command=self.quit)
+        button_sair = Button(self, text="Sair", command=self.quit, bg="#ea1d2c", fg="#fff")
 
         # Posicionamento dos botões na tela
         button_cadastrar.pack(pady=5)
@@ -76,7 +81,7 @@ class Application(Tk):
     def cadastrar_restaurante(self):
         window = Toplevel(self)
         window.title("Cadastrar Restaurante")
-        window.geometry("400x200")
+        window.geometry("600x350")
 
         label_nome = Label(window, text="Nome do Restaurante:")
         label_nome.pack(pady=5)
@@ -88,11 +93,23 @@ class Application(Tk):
         entry_categoria = Entry(window)
         entry_categoria.pack(pady=5)
 
+        label_telefone = Label(window, text="Telefone do Restaurante:")
+        label_telefone.pack(pady=5)
+        entry_telefone = Entry(window)
+        entry_telefone.pack(pady=5)
+
+        label_endereco = Label(window, text="Endereço do Restaurante:")
+        label_endereco.pack(pady=5)
+        entry_endereco = Entry(window)
+        entry_endereco.pack(pady=5)
+
         def salvar():
             nome = entry_nome.get()
             categoria = entry_categoria.get()
-            if nome and categoria:
-                Restaurante(nome, categoria)
+            telefone = entry_telefone.get()
+            endereco = entry_endereco.get()
+            if nome and categoria and telefone and endereco :
+                Restaurante(nome, categoria, telefone, endereco)
                 salvar_dados()
                 messagebox.showinfo("Sucesso", "Restaurante cadastrado com sucesso!")
                 window.destroy()
@@ -105,24 +122,28 @@ class Application(Tk):
     def listar_restaurantes(self):
         window = Toplevel(self)
         window.title("Listar Restaurantes")
-        window.geometry("600x450")
+        window.geometry("1200x450")
 
         # Configuração da Treeview para exibição dos restaurantes
-        tree = ttk.Treeview(window, columns=("nome", "categoria", "media_avaliacoes", "status"), show='headings')
+        tree = ttk.Treeview(window, columns=("nome", "categoria","telefone", "endereco", "media_avaliacoes", "status"), show='headings')
         tree.heading("nome", text="Nome")
         tree.heading("categoria", text="Categoria")
+        tree.heading("telefone", text="Telefne")
+        tree.heading("endereco", text="Endereço")
         tree.heading("media_avaliacoes", text="Média Avaliações")
         tree.heading("status", text="Status")
 
         # Centraliza o texto nas colunas
         tree.column("nome", anchor=CENTER)
         tree.column("categoria", anchor=CENTER)
+        tree.column("telefone", anchor=CENTER)
+        tree.column("endereco", anchor=CENTER)
         tree.column("media_avaliacoes", anchor=CENTER)
         tree.column("status", anchor=CENTER)
 
         # Inserção dos dados na Treeview
         for restaurante in Restaurante.restaurantes:
-            tree.insert("", "end", values=(restaurante._nome, restaurante._categoria, restaurante.media_avaliacoes, restaurante.ativo))
+            tree.insert("", "end", values=(restaurante._nome, restaurante._categoria, restaurante._telefone, restaurante._endereco, restaurante.media_avaliacoes, restaurante.ativo))
 
         tree.pack(fill=BOTH, expand=True)
 
@@ -169,7 +190,7 @@ class Application(Tk):
     def avaliar_restaurante(self):
         window = Toplevel(self)
         window.title("Avaliar Restaurante")
-        window.geometry("400x450")
+        window.geometry("600x450")
 
         label_selecao = Label(window, text="Selecione o restaurante para avaliar:")
         label_selecao.pack(pady=5)
@@ -219,23 +240,27 @@ class Application(Tk):
     def alterar_restaurante(self):
         window = Toplevel(self)
         window.title("Alterar Restaurante")
-        window.geometry("400x450")
+        window.geometry("1100x550")
 
         label_selecao = Label(window, text="Selecione o restaurante para alterar:")
         label_selecao.pack(pady=5)
 
-        tree = ttk.Treeview(window, columns=("nome", "categoria", "status"), show='headings')
+        tree = ttk.Treeview(window, columns=("nome", "categoria", "telefone", "endereco", "status"), show='headings')
         tree.heading("nome", text="Nome")
         tree.heading("categoria", text="Categoria")
+        tree.heading("telefone", text="Telefone")
+        tree.heading("endereco", text="Endereço")
         tree.heading("status", text="Status")
 
         # Centraliza o texto nas colunas
         tree.column("nome", anchor=CENTER)
         tree.column("categoria", anchor=CENTER)
+        tree.column("telefone", anchor=CENTER)
+        tree.column("endereco", anchor=CENTER)
         tree.column("status", anchor=CENTER)
 
         for idx, restaurante in enumerate(Restaurante.restaurantes):
-            tree.insert("", "end", iid=idx, values=(restaurante._nome, restaurante._categoria, restaurante.ativo))
+            tree.insert("", "end", iid=idx, values=(restaurante._nome, restaurante._categoria, restaurante._telefone, restaurante._endereco, restaurante.ativo))
 
         tree.pack(fill=BOTH, expand=True)
 
@@ -249,6 +274,16 @@ class Application(Tk):
         entry_categoria = Entry(window)
         entry_categoria.pack(pady=5)
 
+        label_telefone = Label(window, text="Novo Telefone do Restaurante:")
+        label_telefone.pack(pady=5)
+        entry_telefone = Entry(window)
+        entry_telefone.pack(pady=5)
+
+        label_endereco = Label(window, text="Novo Endereço do Restaurante:")
+        label_endereco.pack(pady=5)
+        entry_endereco = Entry(window)
+        entry_endereco.pack(pady=5)
+
         def salvar_alteracoes():
             selected_item = tree.selection()
             if not selected_item:
@@ -257,6 +292,8 @@ class Application(Tk):
             
             novo_nome = entry_nome.get()
             nova_categoria = entry_categoria.get()
+            novo_telefone = entry_telefone.get()
+            novo_endereco = entry_endereco.get()
 
             for item in selected_item:
                 restaurante_index = int(item)
@@ -265,6 +302,10 @@ class Application(Tk):
                     restaurante._nome = novo_nome
                 if nova_categoria:
                     restaurante._categoria = nova_categoria
+                if novo_telefone:
+                    restaurante._telefone = novo_telefone
+                if novo_endereco:
+                    restaurante._endereco = novo_endereco
             
             salvar_dados()
             messagebox.showinfo("Sucesso", "Alterações salvas com sucesso!")
@@ -276,7 +317,7 @@ class Application(Tk):
     def excluir_restaurante(self):
         window = Toplevel(self)
         window.title("Excluir Restaurante")
-        window.geometry("400x450")
+        window.geometry("600x450")
 
         label_selecao = Label(window, text="Selecione o restaurante para excluir:")
         label_selecao.pack(pady=5)

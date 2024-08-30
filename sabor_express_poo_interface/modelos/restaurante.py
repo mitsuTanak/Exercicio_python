@@ -3,9 +3,11 @@ from modelos.avaliacao import Avaliacao
 class Restaurante:
     restaurantes = []
 
-    def __init__(self, nome, categoria):
+    def __init__(self, nome, categoria,telefone, endereco):
         self._nome = nome
         self._categoria = categoria
+        self._telefone = telefone
+        self._endereco = endereco
         self._ativo = True
         self._avaliacao = []
         Restaurante.restaurantes.append(self)
@@ -17,6 +19,14 @@ class Restaurante:
     @property
     def categoria(self):
         return self._categoria
+    
+    @property
+    def telefone(self):
+        return self._telefone
+    
+    @property
+    def endereco(self):
+        return self._endereco
 
     @property
     def ativo(self):

@@ -2,18 +2,24 @@
     {
         "nome": "Sabor Caseiro",
         "categoria": "COMIDA CASEIRA",
+        "telefone": "",
+        "endereco": "",
         "ativo": true,
         "avaliacao": []
     },
     {
         "nome": "Cantina Italiana",
         "categoria": "ITALIANA",
+        "telefone": "",
+        "endereco": "",
         "ativo": false,
         "avaliacao": []
     },
     {
         "nome": "Sushi Zen",
         "categoria": "JAPONESA",
+        "telefone": "",
+        "endereco": "",
         "ativo": true,
         "avaliacao": [
             {
@@ -27,6 +33,8 @@
     {
         "nome": "1",
         "categoria": "2",
+        "telefone": "",
+        "endereco": "",
         "ativo": true,
         "avaliacao": []
     }
