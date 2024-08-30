@@ -2,26 +2,24 @@
     {
         "nome": "Sabor Caseiro",
         "categoria": "COMIDA CASEIRA",
-        "telefone": "",
-        "endereco": "",
+        "telefone": "11 96587-2145",
+        "endereco": "Av. do Canduva",
         "ativo": true,
-        "avaliacao": [],
-        "cardapio": []
+        "avaliacao": []
     },
     {
         "nome": "Cantina Italiana",
         "categoria": "ITALIANA",
-        "telefone": "",
-        "endereco": "",
+        "telefone": "2018-6581",
+        "endereco": "N/A",
         "ativo": false,
-        "avaliacao": [],
-        "cardapio": []
+        "avaliacao": []
     },
     {
         "nome": "Sushi Zen",
         "categoria": "JAPONESA",
-        "telefone": "",
-        "endereco": "",
+        "telefone": "N/A",
+        "endereco": "R. Liberdade n°5",
         "ativo": true,
         "avaliacao": [
             {
@@ -30,16 +28,6 @@
             {
                 "nota": 8
             }
-        ],
-        "cardapio": []
-    },
-    {
-        "nome": "1",
-        "categoria": "2",
-        "telefone": "",
-        "endereco": "",
-        "ativo": true,
-        "avaliacao": [],
-        "cardapio": []
+        ]
     }
 ]
