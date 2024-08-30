@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import messagebox, ttk
 from modelos.restaurante import Restaurante
 from modelos.avaliacao import Avaliacao
+from modelos.prato import Prato
 
 # Função para obter o caminho do diretório de dados
 def get_data_dir():
@@ -122,13 +123,13 @@ class Application(Tk):
     def listar_restaurantes(self):
         window = Toplevel(self)
         window.title("Listar Restaurantes")
-        window.geometry("1200x450")
+        window.geometry("1400x450")
 
         # Configuração da Treeview para exibição dos restaurantes
-        tree = ttk.Treeview(window, columns=("nome", "categoria","telefone", "endereco", "media_avaliacoes", "status"), show='headings')
+        tree = ttk.Treeview(window, columns=("nome", "categoria","telefone", "endereco", "media_avaliacoes", "status", "cardapio"), show='headings')
         tree.heading("nome", text="Nome")
         tree.heading("categoria", text="Categoria")
-        tree.heading("telefone", text="Telefne")
+        tree.heading("telefone", text="Telefone")
         tree.heading("endereco", text="Endereço")
         tree.heading("media_avaliacoes", text="Média Avaliações")
         tree.heading("status", text="Status")
@@ -146,6 +147,90 @@ class Application(Tk):
             tree.insert("", "end", values=(restaurante._nome, restaurante._categoria, restaurante._telefone, restaurante._endereco, restaurante.media_avaliacoes, restaurante.ativo))
 
         tree.pack(fill=BOTH, expand=True)
+
+        # Botão para abrir o cardápio do restaurante selecionado
+        def abrir_cardapio():
+            selected_item = tree.selection()
+            if not selected_item:
+                messagebox.showwarning("Aviso", "Selecione um restaurante para ver o cardápio.")
+                return
+            
+            restaurante_index = tree.index(selected_item[0])
+            restaurante = Restaurante.restaurantes[restaurante_index]
+            self.mostrar_cardapio(restaurante)
+
+        button_cardapio = Button(window, text="Ver Cardápio", command=abrir_cardapio)
+        button_cardapio.pack(pady=10)
+
+    def mostrar_cardapio(self, restaurante):
+        window = Toplevel(self)
+        window.title(f"Cardápio - {restaurante.nome}")
+        window.geometry("600x400")
+
+        # Botão para cadastrar novo prato
+        button_cadastrar_prato = Button(window, text="Cadastrar Novo Prato", command=lambda: self.cadastrar_prato(restaurante, window))
+        button_cadastrar_prato.pack(pady=10)
+
+        # Treeview para listar os pratos
+        tree = ttk.Treeview(window, columns=("nome", "descricao", "preco"), show='headings')
+        tree.heading("nome", text="Nome")
+        tree.heading("descricao", text="Descrição")
+        tree.heading("preco", text="Preço (R$)")
+
+        # Centraliza o texto nas colunas
+        tree.column("nome", anchor=CENTER)
+        tree.column("descricao", anchor=CENTER)
+        tree.column("preco", anchor=CENTER)
+
+        # Inserção dos dados na Treeview
+        for prato in restaurante.cardapio:
+            tree.insert("", "end", values=(prato.nome, prato.descricao, f"R$ {prato.preco:.2f}"))
+
+        tree.pack(fill=BOTH, expand=True)
+
+    def cadastrar_prato(self, restaurante, cardapio_window):
+        window = Toplevel(self)
+        window.title("Cadastrar Novo Prato")
+        window.geometry("400x250")
+
+        label_nome = Label(window, text="Nome do Prato:")
+        label_nome.pack(pady=5)
+        entry_nome = Entry(window)
+        entry_nome.pack(pady=5)
+
+        label_descricao = Label(window, text="Descrição do Prato:")
+        label_descricao.pack(pady=5)
+        entry_descricao = Entry(window)
+        entry_descricao.pack(pady=5)
+
+        label_preco = Label(window, text="Preço do Prato (R$):")
+        label_preco.pack(pady=5)
+        entry_preco = Entry(window)
+        entry_preco.pack(pady=5)
+
+        def salvar_prato():
+            nome = entry_nome.get()
+            descricao = entry_descricao.get()
+            preco = entry_preco.get()
+
+            if nome and descricao and preco:
+                try:
+                    preco = float(preco)
+                    restaurante.adicionar_prato(nome, descricao, preco)
+                    salvar_dados()
+                    messagebox.showinfo("Sucesso", "Prato cadastrado com sucesso!")
+                    window.destroy()
+                    cardapio_window.destroy()  # Fecha a janela do cardápio
+                    self.mostrar_cardapio(restaurante)  # Reabre a janela do cardápio atualizada
+                except ValueError:
+                    messagebox.showwarning("Aviso", "O preço deve ser um número válido.")
+            else:
+                messagebox.showwarning("Aviso", "Todos os campos devem ser preenchidos.")
+
+        button_salvar = Button(window, text="Salvar Prato", command=salvar_prato)
+        button_salvar.pack(pady=10)
+
+
 
     def habilitar_restaurante(self):
         window = Toplevel(self)

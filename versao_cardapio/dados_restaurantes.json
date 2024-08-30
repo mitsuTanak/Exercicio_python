@@ -1,0 +1,53 @@
+[
+    {
+        "nome": "Sabor Caseiro",
+        "categoria": "COMIDA CASEIRA",
+        "ativo": true,
+        "avaliacao": [],
+        "cardapio": [
+            {
+                "nome": "Arroz",
+                "descricao": "Arroz à rega",
+                "preco": 50.0
+            },
+            {
+                "nome": "Batata",
+                "descricao": "Batata frita",
+                "preco": 20.0
+            },
+            {
+                "nome": "Churrasco",
+                "descricao": "Churrasco grego",
+                "preco": 10.0
+            }
+        ]
+    },
+    {
+        "nome": "Cantina Italiana",
+        "categoria": "ITALIANA",
+        "ativo": false,
+        "avaliacao": [],
+        "cardapio": []
+    },
+    {
+        "nome": "Sushi Zen",
+        "categoria": "JAPONESA",
+        "ativo": true,
+        "avaliacao": [
+            {
+                "nota": 10
+            },
+            {
+                "nota": 8
+            }
+        ],
+        "cardapio": []
+    },
+    {
+        "nome": "1",
+        "categoria": "2",
+        "ativo": true,
+        "avaliacao": [],
+        "cardapio": []
+    }
+]

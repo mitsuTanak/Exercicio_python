@@ -1,4 +1,5 @@
 from modelos.avaliacao import Avaliacao
+from modelos.prato import Prato
 
 class Restaurante:
     restaurantes = []
@@ -10,6 +11,7 @@ class Restaurante:
         self._endereco = endereco
         self._ativo = True
         self._avaliacao = []
+        self._cardapio = []
         Restaurante.restaurantes.append(self)
 
     @property
@@ -47,3 +49,24 @@ class Restaurante:
 
     def alternar_estado(self):
         self._ativo = not self._ativo
+    
+    # Novo método para adicionar um prato ao cardápio
+    def adicionar_prato(self, nome, descricao, preco):
+        novo_prato = Prato(nome, descricao, preco)
+        self._cardapio.append(novo_prato)
+        return novo_prato
+
+    # Novo método para obter o cardápio
+    @property
+    def cardapio(self):
+        return self._cardapio
+
+    def to_dict(self):
+        return {
+            'nome': self._nome,
+            'categoria': self._categoria,
+            'ativo': self._ativo,
+            'avaliacao': [avaliacao.to_dict() for avaliacao in self._avaliacao],
+            'cardapio': [prato.to_dict() for prato in self._cardapio]
+        }
+
