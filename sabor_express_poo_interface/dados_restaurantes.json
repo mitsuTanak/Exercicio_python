@@ -1,0 +1,33 @@
+[
+    {
+        "nome": "Sabor Caseiro",
+        "categoria": "COMIDA CASEIRA",
+        "ativo": true,
+        "avaliacao": []
+    },
+    {
+        "nome": "Cantina Italiana",
+        "categoria": "ITALIANA",
+        "ativo": false,
+        "avaliacao": []
+    },
+    {
+        "nome": "Sushi Zen",
+        "categoria": "JAPONESA",
+        "ativo": true,
+        "avaliacao": [
+            {
+                "nota": 10
+            },
+            {
+                "nota": 8
+            }
+        ]
+    },
+    {
+        "nome": "1",
+        "categoria": "2",
+        "ativo": true,
+        "avaliacao": []
+    }
+]
