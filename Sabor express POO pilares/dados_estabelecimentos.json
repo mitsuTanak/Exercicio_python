@@ -1,0 +1,32 @@
+[
+    {
+        "tipo": "Restaurante",
+        "nome": "Sabor Italiano",
+        "categoria": "ITALIANA",
+        "ativo": false,
+        "avaliacoes": []
+    },
+    {
+        "tipo": "Restaurante",
+        "nome": "Sushi Legal",
+        "categoria": "JAPONESA",
+        "ativo": true,
+        "avaliacoes": []
+    },
+    {
+        "tipo": "Restaurante",
+        "nome": "Maldade Grill",
+        "categoria": "CHURRASCARIA",
+        "ativo": false,
+        "avaliacoes": [
+            {
+                "cliente": "ignacio",
+                "nota": 10.0
+            },
+            {
+                "cliente": "Lucas",
+                "nota": 6.0
+            }
+        ]
+    }
+]
